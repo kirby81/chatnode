@@ -1,0 +1,14 @@
+#chat {
+  min-height: 10em;
+  list-style: none;
+  overflow-y: scroll;
+}
+
+#chat li {
+  padding: 5px 10px;
+}
+
+#chat li:nth-child(odd) {
+  background: #eee;
+  border-radius: 2px;
+}
