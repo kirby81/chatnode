@@ -4,14 +4,16 @@ $(document).ready(function () {
 
   //Connection au serveur reussi
   socket.on('connect', function () {
-    var username = prompt("Username");
-    name = username;
-    socket.emit('adduser', username);
-    return (false);
+    if (name === '') {
+      var username = prompt("Username");
+      name = username;
+      socket.emit('adduser', username);
+      return (false);
+    }
   });
 
   //Envoi du message au serveur
-  $('form').submit(function () {
+  $('#btn').click(function () {
     var msg = $('#msg').val();
     socket.emit('msg', msg);
     $('#msg').val('').focus();
