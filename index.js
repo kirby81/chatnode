@@ -39,7 +39,8 @@ io.on('connection', function (socket) {
    ** Un utilisateur envoi un message
    */
   socket.on('msg', function (msg) {
-    io.sockets.in(socket.room).emit('res', socket.username, msg);
+    console.log(socket.username + " (" + socket.room + ") : " + msg);
+    socket.broadcast.to(socket.room).emit('res', socket.username, msg);
   });
 
   /**
@@ -47,6 +48,9 @@ io.on('connection', function (socket) {
   */
   socket.on('newroom', function (room) {
     roomlist.push(room);
+    socket.leave(socket.room);
+    socket.room = room;
+    socket.join(socket.room);
     socket.emit('updateroom', room);
     io.sockets.emit('roomlist', roomlist);
   })
@@ -55,7 +59,9 @@ io.on('connection', function (socket) {
    ** Un utilisateur change de salon
   */
   socket.on('changeroom', function (room) {
+    socket.leave(socket.room);
     socket.room = room;
+    socket.join(socket.room);
     socket.emit('updateroom', room);
   });
 
