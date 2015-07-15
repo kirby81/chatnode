@@ -8,27 +8,39 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <div class="row">
-      <h1 class="col-md-5 col-md-offset-3">Chatnode</h1>
-      <h3 id="room"></h3>
-    </div>
-    <div class="row">
-    </div>
-    <form class="col-md-6 col-md-offset-3 chat form-horizontal">
-      <div class="form-group">
-        <div class="col-md-12">
-          <ul id="chat" class="form-control"></ul>
+    <div class="chatnode">
+      <div class="row">
+        <h1 class="col-xs-4 col-sm-4 col-md-4 titre">Chatnode</h1>
+        <div class="room btn-group">
+          <button id="room" type="button" class="btn btn-info"></button>
+          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li class="divider"></li>
+            <li id="addroom"><a href="#">New room</a></li>
+          </ul>
         </div>
       </div>
-      <div class="form-group">
-        <div class="col-md-9">
-          <textarea id="msg" class="form-control col-md-10" rows="3" autofocus></textarea>
-        </div>
-        <div class="col-md-1 col-md-offset-1">
-          <button type="button" id="btn" class="btn btn-primary btn-lg">Submit</button>
-        </div>
+      <div class="row">
+        <form class="chat form-horizontal">
+          <div class="form-group">
+            <div class="col-sm-12">
+              <ul id="chat" class="form-control"></ul>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-9">
+              <textarea id="msg" class="form-control col-md-10" rows="1" autofocus></textarea>
+            </div>
+            <div class="col-sm-3">
+              <button type="button" id="btn" class="btn btn-primary btn-md">Submit</button>
+            </div>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
     <script src="/socket.io/socket.io.js" charset="utf-8"></script>
     <script type="text/javascript" src="/js/chat.js" charset="utf-8"></script>
   </body>

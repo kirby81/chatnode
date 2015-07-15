@@ -3,6 +3,8 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+var roomlist = ['general'];
+
 app.use(express.static(__dirname + '/view'));
 
 app.get('/', function(req, res) {
@@ -23,6 +25,7 @@ io.on('connection', function (socket) {
     socket.emit('res', 'SERVER', 'you have connected to general');
     socket.broadcast.to(socket.room).emit('res', 'SERVER', username + ' has connected to this room');
     socket.emit('updateroom', socket.room);
+    socket.emit('roomlist', roomlist);
   });
 
   /**
@@ -36,7 +39,30 @@ io.on('connection', function (socket) {
    ** Un utilisateur envoi un message
    */
   socket.on('msg', function (msg) {
-    io.sockets.in(socket.room).emit('res', socket.username, msg);
+    console.log(socket.username + " (" + socket.room + ") : " + msg);
+    socket.broadcast.to(socket.room).emit('res', socket.username, msg);
+  });
+
+  /**
+   ** Un utilisateur crée un salon
+  */
+  socket.on('newroom', function (room) {
+    roomlist.push(room);
+    socket.leave(socket.room);
+    socket.room = room;
+    socket.join(socket.room);
+    socket.emit('updateroom', room);
+    io.sockets.emit('roomlist', roomlist);
+  })
+
+  /**
+   ** Un utilisateur change de salon
+  */
+  socket.on('changeroom', function (room) {
+    socket.leave(socket.room);
+    socket.room = room;
+    socket.join(socket.room);
+    socket.emit('updateroom', room);
   });
 
 })
