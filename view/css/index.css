@@ -17,6 +17,11 @@
   margin-top: 20px;
 }
 
+.chatnode {
+  max-width: 75%;
+  margin: 0 auto;
+}
+
 /*[class*="col-"] {
   background-color: lightgreen;
   border: 2px solid black;
