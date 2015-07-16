@@ -2,6 +2,11 @@ $(document).ready(function () {
   var socket = io();
   var name = '';
 
+  function scrollDown() {
+    console.log("scrollDown");
+    document.getElementById("chat").scrollTop=document.getElementById("chat").scrollHeight;
+  }
+
   //Connection au serveur reussi
   socket.on('connect', function () {
     if (name === '') {
@@ -12,9 +17,33 @@ $(document).ready(function () {
     }
   });
 
+  //Envoi du message au serveur
+  $('#btn').click(function () {
+    var msg = $('#msg').val();
+    socket.emit('msg', msg);
+    $('#msg').val('').focus();
+    $('#chat').append($('<li>').text(name + ': ' + msg));
+    scrollDown();
+    return (false);
+  });
+
+  //Changement de room
+  $('#roomlist').click(function () {
+    alert("plop");
+    //socket.emit('changeroom', event.target.text());
+  });
+
+  //Creation d'un nouveau salon
+  $('#addroom').click(function () {
+    var room = prompt("Room name");
+    if (room)
+      socket.emit('newroom', room);
+  });
+
   //Reception message serveur
   socket.on('res', function (user, res) {
     $('#chat').append($('<li>').text(user + ': ' + res));
+    scrollDown();
   });
 
   //Ajout d'un salon part un utilisateur
@@ -31,25 +60,5 @@ $(document).ready(function () {
     $('#room').append(nameroom);
   });
 
-  //Envoi du message au serveur
-  $('#btn').click(function () {
-    var msg = $('#msg').val();
-    socket.emit('msg', msg);
-    $('#msg').val('').focus();
-    $('#chat').append($('<li>').text(name + ': ' + msg));
-    return (false);
-  });
-
-  //Changement de room
-  $(document).on('click', '#roomlist', function () {
-    socket.emit('changeroom', $(this).text());
-  });
-
-  //Creation d'un nouveau salon
-  $('#addroom').click(function () {
-    var room = prompt("Room name");
-    if (room)
-      socket.emit('newroom', room);
-  });
 
 })
