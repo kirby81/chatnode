@@ -15,16 +15,6 @@
 
 .room {
   margin-top: 20px;
-  float: right;
-}
-
-.chatnode {
-  margin: 0 auto;
-  max-width: 50%;
-}
-
-h1 {
-  text-align: left;
 }
 
 /*[class*="col-"] {
